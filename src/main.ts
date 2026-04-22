@@ -9,19 +9,26 @@ async function bootstrap() {
   const config = new DocumentBuilder()
     .setTitle('Nutrileve')
     .setDescription('Comida saudável que chega até você')
-    .setContact("Sesteti Four", "https://linktr.ee/nicolasfernandodev?utm_source=qr_code", "generation@email.com")
+    .setContact(
+      'Sesteti Four',
+      'https://linktr.ee/nicolasfernandodev?utm_source=qr_code',
+      'generation@email.com',
+    )
     .setVersion('1.0')
     .addBearerAuth()
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('/swagger', app, document);
 
-  process.env.TZ = "-03:00"
+  process.env.TZ = '-03:00';
 
   app.useGlobalPipes(new ValidationPipe());
 
-  app.enableCors();
-
+  app.enableCors({
+    origin: '*',
+    methods: 'GET,POST,PUT,DELETE,OPTIONS',
+    allowedHeaders: 'Content-Type,Authorization',
+  });
 
   await app.listen(process.env.PORT ?? 4000);
 }
